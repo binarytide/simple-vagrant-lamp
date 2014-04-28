@@ -3,7 +3,7 @@
 ## Features
 - Simple administration.  This script doesn't require the learning curve of Puppet or Chef, though I recommend you looking into either of those solutions.  Instead, it uses a simple shell script to install packages and import the database.
 - VM Description
-	- 1GB RAM
+	- .5GB RAM
 	- Ubuntu 12.04 LTS 64-bit
 	- Apache w/ mod_rewrite
 	- MySQL
