@@ -1,7 +1,7 @@
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password root'
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password root'
 sudo apt-get update
-sudo apt-get -y install mysql-server-5.5 php5-mysql libsqlite3-dev apache2 php5 php5-dev build-essential php-pear
+sudo apt-get -y install mysql-server-5.5 php5-mysql libsqlite3-dev apache2 php5 php5-dev build-essential php-pear npm subversion ruby-rvm
 
 
 # Set timezone
@@ -35,6 +35,35 @@ then
     sudo sed -i '/AllowOverride None/c AllowOverride All' /etc/apache2/sites-available/default
 
     sudo touch /var/log/webserversetup
+
+    #replace /etc/apache2/sites-available
+    sudo echo "<VirtualHost *:80>
+      ServerName bcom.local
+      ServerAlias www.bcom.local
+      DocumentRoot /var/www/bcom-redesign-beta/site
+      DirectoryIndex index.php
+      <Directory /var/www/site>
+        EnableSendfile Off
+        Options FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+      </Directory>
+      <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+      </Directory>
+      php_flag display_startup_errors on
+      php_flag display_errors on
+      php_flag html_errors on
+      php_flag log_errors on
+      php_value error_log  /var/log/apache2/bcom-phperrors.log
+      LogLevel info
+      ErrorLog /var/log/apache2/bcom-error.log
+      CustomLog /var/log/apache2/bcom-access.log combined
+    </VirtualHost>
+    " > "/etc/apache2/sites-available/default";
+
 fi
 
 
@@ -70,6 +99,8 @@ then
 fi
 
 
+
 # Make sure things are up and running as they should be
+sudo apt-get upgrade
 mailcatcher --http-ip=192.168.56.101
 sudo service apache2 restart
