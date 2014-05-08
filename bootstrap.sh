@@ -1,7 +1,7 @@
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password root'
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password root'
 sudo apt-get update
-sudo apt-get -y install mysql-server-5.5 php5-mysql libsqlite3-dev apache2 php5 php5-dev build-essential php-pear npm subversion ruby-rvm
+sudo apt-get -y install mysql-server-5.5 php5-mysql libsqlite3-dev apache2 php5 php5-dev build-essential php-pear subversion ruby-rvm
 
 
 # Set timezone
@@ -102,5 +102,12 @@ fi
 
 # Make sure things are up and running as they should be
 sudo apt-get upgrade
+sudo apt-get update
+sudo apt-get install -y python-software-properties python g++ make
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get -y install nodejs
+sudo npm install -g grunt-cli
+npm config set registry http://registry.npmjs.org/
 mailcatcher --http-ip=192.168.56.101
 sudo service apache2 restart
